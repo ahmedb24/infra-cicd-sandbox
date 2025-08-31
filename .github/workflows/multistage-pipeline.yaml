@@ -107,7 +107,7 @@ jobs:
 
       - name: Deploy NGINX app
         run: |
-          kubectl create deployment hello-nginx --image=hello-nginx:latest
+          kubectl create deployment hello-nginx --image=nginx
           kubectl expose deployment hello-nginx --port=80 --target-port=80 --type=NodePort
 
       - name: Wait for rollout
