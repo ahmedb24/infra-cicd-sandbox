@@ -10,11 +10,6 @@ jobs:
   protect:
     runs-on: ubuntu-latest
     steps:
-      - name: Set up GitHub CLI
-        uses: cli/cli@v3
-        with:
-          version: latest
-
       - name: Protect main branch
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
