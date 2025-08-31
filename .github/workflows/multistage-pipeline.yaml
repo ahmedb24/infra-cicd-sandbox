@@ -57,7 +57,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Build container image
-        run: docker build -t hello-nginx:latest ./app/Dockfile
+        run: docker build -t hello-nginx:latest -f ./app/Dockerfile ./app
 
       - name: Container Security Scan (Trivy)
         run: |
@@ -107,7 +107,7 @@ jobs:
 
       - name: Deploy NGINX app
         run: |
-          kubectl create deployment hello-nginx --image=nginx
+          kubectl create deployment hello-nginx --image=hello-nginx:latest
           kubectl expose deployment hello-nginx --port=80 --target-port=80 --type=NodePort
 
       - name: Wait for rollout
