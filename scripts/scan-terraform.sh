@@ -7,7 +7,7 @@ if ! command -v checkov &>/dev/null; then
   pip install checkov
 fi
 
-checkov -d ../../terraform --quiet --framework terraform || {
+checkov -d ../terraform --quiet --framework terraform || {
   echo "[ERROR] Checkov scan failed."
   exit 1
 }
