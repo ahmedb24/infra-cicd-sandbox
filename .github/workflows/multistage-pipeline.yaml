@@ -49,7 +49,7 @@ jobs:
       - name: Plan Terraform in production
         run: |
           cd terraform/envs/production
-          terraform plan -var-file=./terraform/envs/staging/terraform.tfvars
+          terraform plan -var-file=./terraform/envs/production/terraform.tfvars
         if: github.ref == 'refs/heads/main'
 
       - name: IaC Security Scan (Checkov)
