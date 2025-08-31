@@ -16,3 +16,5 @@ fi
 trivy image --exit-code 1 --severity CRITICAL,HIGH --format table "$IMAGE"
 
 echo "[SUCCESS] Trivy scan completed."
+
+
