@@ -13,6 +13,10 @@ name: FinServe CI/CD DevSecOps
 jobs:
   terraform:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ github.ref_name == 'main' && './terraform/envs/production' || './terraform/envs/staging' }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -22,37 +26,38 @@ jobs:
 
       - name: Init Terraform (staging)
         run: |
-          cd terraform/envs/staging
           terraform init
 
       - name: Validate Terraform
         run: |
-          cd terraform/envs/staging
           terraform validate      
           
       - name: Create tfvars file in staging
         run: |
-          cd terraform/envs/staging
           echo "${{ secrets.TF_VARS_STAGING }}" > terraform.tfvars
         if: github.ref == 'refs/heads/staging'
 
       - name: Create tfvars file in production
         run: |
-          cd terraform/envs/production
           echo "${{ secrets.TF_VARS_PROD }}" > terraform.tfvars
         if: github.ref == 'refs/heads/main'
-
-      - name: Plan Terraform in staging
+      
+      - name: Plan Terraform
         run: |
-          cd terraform/envs/staging
           terraform plan -var-file=./terraform.tfvars
         if: github.ref == 'refs/heads/staging'
+      
+      # - name: Plan Terraform in staging
+      #   run: |
+      #     cd terraform/envs/staging
+      #     terraform plan -var-file=./terraform.tfvars
+      #   if: github.ref == 'refs/heads/staging'
           
-      - name: Plan Terraform in production
-        run: |
-          cd terraform/envs/production
-          terraform plan -var-file=./terraform.tfvars
-        if: github.ref == 'refs/heads/main'
+      # - name: Plan Terraform in production
+      #   run: |
+      #     cd terraform/envs/production
+      #     terraform plan -var-file=./terraform.tfvars
+      #   if: github.ref == 'refs/heads/main'
 
       - name: IaC Security Scan (Checkov)
         run: ./scripts/scan-terraform.sh
