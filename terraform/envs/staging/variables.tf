@@ -1,4 +1,7 @@
-variable "env" { type = string }
+variable "env" { 
+  type = string
+  default = "staging" 
+}
 variable "vnet_cidr" { default = "10.30.0.0/16" }
 variable "subnet_cidr" { default = "10.30.1.0/24" }
 variable "kind_node_image" { default = "kindest/node:v1.29.4" }
