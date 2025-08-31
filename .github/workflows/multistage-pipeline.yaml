@@ -57,7 +57,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Build container image
-        run: docker build -t hello-nginx:latest .
+        run: docker build -t hello-nginx:latest ./app/Dockfile
 
       - name: Container Security Scan (Trivy)
         run: ./scripts/scan-image.sh hello-nginx:latest
