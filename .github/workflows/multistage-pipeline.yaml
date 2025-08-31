@@ -48,7 +48,7 @@ jobs:
 
       - name: IaC Security Scan (Checkov)
         run: |
-          chmod +x scripts/scan-terraform.sh
+          chmod +x ../../../scripts/scan-terraform.sh
           ../../../scripts/scan-terraform.sh
 
   container:
