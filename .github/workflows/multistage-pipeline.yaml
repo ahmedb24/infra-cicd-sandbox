@@ -60,7 +60,9 @@ jobs:
         run: docker build -t hello-nginx:latest ./app/Dockfile
 
       - name: Container Security Scan (Trivy)
-        run: ./scripts/scan-image.sh hello-nginx:latest
+        run: |
+          chmod +x ./scripts/scan-image.sh
+          ./scripts/scan-image.sh hello-nginx:latest
 
   patch-vm:
     runs-on: ubuntu-latest
@@ -68,22 +70,24 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Run patch script
-        run: ./scripts/patch-vm.sh
-
-  secrets:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Load secrets from .env
         run: |
-          export $(grep -v '^#' .env | xargs)
-          echo "DB_PASSWORD loaded from env"
+          chmod +x ./scripts/patch-vm.sh
+          ./scripts/patch-vm.sh
 
-      - name: Load secrets from mock key vault
-        run: |
-          DB_PASSWORD=$(jq -r '.["db-password"]' mock-keyvault.json)
-          echo "Loaded DB password from mock vault"
+  # secrets:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+
+  #     - name: Load secrets from .env
+  #       run: |
+  #         export $(grep -v '^#' .env | xargs)
+  #         echo "DB_PASSWORD loaded from env"
+
+  #     - name: Load secrets from mock key vault
+  #       run: |
+  #         DB_PASSWORD=$(jq -r '.["db-password"]' mock-keyvault.json)
+  #         echo "Loaded DB password from mock vault"
 
   deploy:
     name: Deploy Hello App to Kind
