@@ -32,24 +32,24 @@ jobs:
           
       - name: Create tfvars file in staging
         run: |
-          echo "${{ secrets.TF_VARS_STAGING }}" > terraform.tfvars
+          echo "${{ secrets.TF_VARS_STAGING }}" > ./terraform/envs/staging/terraform.tfvars
         if: github.ref == 'refs/heads/staging'
 
       - name: Create tfvars file in production
         run: |
-          echo "${{ secrets.TF_VARS_PROD }}" > terraform.tfvars
+          echo "${{ secrets.TF_VARS_PROD }}" > ./terraform/envs/production/terraform.tfvars
         if: github.ref == 'refs/heads/main'
 
       - name: Plan Terraform in staging
         run: |
           cd terraform/envs/staging
-          terraform plan -var-file=terraform.tfvars
+          terraform plan -var-file=./terraform/envs/staging/terraform.tfvars
         if: github.ref == 'refs/heads/staging'
           
       - name: Plan Terraform in production
         run: |
           cd terraform/envs/production
-          terraform plan -var-file=terraform.tfvars
+          terraform plan -var-file=./terraform/envs/staging/terraform.tfvars
         if: github.ref == 'refs/heads/main'
 
       - name: IaC Security Scan (Checkov)
