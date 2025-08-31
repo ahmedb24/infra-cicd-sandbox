@@ -47,7 +47,7 @@ jobs:
           terraform plan -var-file="terraform.tfvars"
 
       - name: IaC Security Scan (Checkov)
-        run: ./scripts/scan-terraform.sh
+        run: ../../scripts/scan-terraform.sh
 
   container:
     runs-on: ubuntu-latest
