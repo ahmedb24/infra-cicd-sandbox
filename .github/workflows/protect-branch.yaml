@@ -1,0 +1,29 @@
+name: Protect Branches
+
+'on':
+  workflow_dispatch: null
+  push:
+    branches:
+      - main
+
+jobs:
+  protect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up GitHub CLI
+        uses: cli/cli@v3
+        with:
+          version: latest
+
+      - name: Protect main branch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api \
+            -X PUT \
+            repos/${{ github.repository }}/branches/main/protection \
+            -F required_status_checks.strict=true \
+            -F required_status_checks.contexts[]="FinServe CI/CD" \
+            -F enforce_admins=true \
+            -F required_pull_request_reviews.dismiss_stale_reviews=true \
+            -F restrictions=""
