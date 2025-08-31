@@ -45,7 +45,6 @@ jobs:
       - name: Plan Terraform
         run: |
           terraform plan -var-file=./terraform.tfvars
-        if: github.ref == 'refs/heads/staging'
       
       # - name: Plan Terraform in staging
       #   run: |
