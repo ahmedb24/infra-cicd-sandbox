@@ -24,7 +24,7 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
-      - name: Init Terraform (staging)
+      - name: Init Terraform
         run: |
           terraform init
 
@@ -112,8 +112,7 @@ jobs:
 
       - name: Wait for rollout
         run: |
-          kubectl get deployments -A
-          # kubectl rollout status deployment/hello-nginx
+          kubectl rollout status deployment/hello-nginx
 
       - name: Smoke Test App
         run: |
