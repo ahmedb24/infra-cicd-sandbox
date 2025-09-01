@@ -110,11 +110,11 @@ jobs:
         run: |
           kubectl create deployment hello-nginx --image=nginx
           kubectl expose deployment hello-nginx --port=80 --target-port=80 --type=NodePort
-          watch kubectl describe deploy/hello-nginx
+          kubectl get deployments
 
-      # - name: Wait for rollout
-      #   run: |
-      #     kubectl rollout status deployment/hello-nginx
+      - name: Wait for rollout
+        run: |
+          kubectl rollout status deployment/hello-nginx
 
       # - name: Smoke Test App
       #   run: |
