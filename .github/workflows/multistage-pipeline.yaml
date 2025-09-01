@@ -116,8 +116,8 @@ jobs:
         run: |
           kubectl rollout status deployment/hello-nginx
 
-      # - name: Smoke Test App
-      #   run: |
-      #     kubectl get svc hello-nginx
-      #     kubectl run curl --image=curlimages/curl -i --rm --restart=Never -- \
-      #       curl http://hello-nginx.default.svc.cluster.local
+      - name: Smoke Test App
+        run: |
+          kubectl get svc hello-nginx
+          kubectl run curl --image=curlimages/curl -i --rm --restart=Never -- \
+            curl http://hello-nginx.default.svc.cluster.local
